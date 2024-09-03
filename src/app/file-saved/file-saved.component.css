@@ -1,0 +1,33 @@
+.container {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 2rem;
+}
+
+#emoji {
+  font-size: 14rem;
+  margin-bottom: 2rem;
+}
+
+.message {
+  font-size: 3rem;
+  margin-bottom: 4rem;
+  font-weight: 700;
+}
+
+.home-button {
+  background-color: #274c77;
+  border-color: #274c77;
+  border-radius: 8px;
+  font-size: 2rem;
+  color: white;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.home-button:hover {
+  border-color: #ffffff;
+}

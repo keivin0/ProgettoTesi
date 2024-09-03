@@ -1,0 +1,45 @@
+<div class="card">
+  <div class="footer-container">
+    <div class="zoom-div">
+      <div>
+        <button
+          class="btn-zoom-out btn btn-primary btn-lg btn-block"
+          (click)="zoomOut()"
+        >
+          <i class="bi bi-zoom-out"></i>
+        </button>
+      </div>
+
+      <div>
+        <span class="text-zoom">Zoom {{ zoomLevel }}%</span>
+      </div>
+
+      <div>
+        <button
+          class="btn-zoom-in btn btn-primary btn-lg btn-block"
+          (click)="zoomIn()"
+        >
+          <i class="bi bi-zoom-in"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="home-div">
+      <button
+        class="btn-home btn btn-primary btn-lg btn-block"
+        (click)="goToHomePage()"
+      >
+        Home <i class="bi bi-house"></i>
+      </button>
+    </div>
+
+    <div class="save-div">
+      <button
+        class="btn-save btn btn-primary btn-lg btn-block"
+        (click)="save()"
+      >
+        Save <i class="bi bi-save"></i>
+      </button>
+    </div>
+  </div>
+</div>

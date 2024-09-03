@@ -1,0 +1,90 @@
+<div class="card">
+  <div class="card-header">
+    <h2 class="title mb-2 mt-1" id="text-title">
+      <i class="bi bi-fonts" id="text-icon"></i>Text
+    </h2>
+  </div>
+  <div class="container-text mt-3">
+    <div>
+      <div class="text-container-buttons">
+        <div class="add-text">
+          <button
+            type="button"
+            class="btn btn-primary btn-lg btn-block mb-3"
+            id="btn-color"
+            (click)="addTextBox()"
+          >
+            Add text box
+          </button>
+        </div>
+
+        <div class="color-buttons mb-3">
+          <div class="input-group-prepend">
+            <select
+              class="custom-select"
+              id="color-select"
+              (change)="onColorSelected($event)"
+            >
+              <option class="dropdown-item" selected value="black">
+                Black
+              </option>
+              <option class="dropdown-item" value="white">White</option>
+              <option class="dropdown-item" value="blue">Blue</option>
+              <option class="dropdown-item" value="green">Green</option>
+              <option class="dropdown-item" value="red">Red</option>
+              <option class="dropdown-item" value="yellow">Yellow</option>
+            </select>
+          </div>
+          <div class="input-group-append">
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              (click)="triggerColorInput()"
+            >
+              <i class="bi bi-palette-fill"></i>
+            </button>
+            <input
+              type="color"
+              id="colorInput"
+              (change)="onColorSelected($event)"
+              hidden
+            />
+          </div>
+        </div>
+
+        <div
+          class="btn-group mb-3"
+          role="group"
+          aria-label="Button group with nested dropdown"
+        >
+          <div class="input-group-prepend" id="select-width">
+            <select
+              id="style-select"
+              class="custom-select"
+              (change)="changeFontStyle($event)"
+            >
+              <option selected value="Arial">Arial</option>
+              <option value="Calibri">Calibri</option>
+              <option value="Candara">Candara</option>
+              <option value="Corbel">Corbel</option>
+              <option value="Georgia">Georgia</option>
+              <option value="Georgia Pro">Georgia Pro</option>
+            </select>
+          </div>
+        </div>
+        <div class="text-formatting mb-3">
+          <button [ngClass]="{ active: isBold }" (click)="makeBold()">
+            <i class="bi bi-type-bold"></i>
+          </button>
+          <button [ngClass]="{ active: isItalic }" (click)="makeItalic()">
+            <i class="bi bi-type-italic"></i>
+          </button>
+          <button [ngClass]="{ active: isUnderline }" (click)="underline()">
+            <i class="bi bi-type-underline"></i>
+          </button>
+          <input type="number" [(ngModel)]="fontSize" placeholder="Font size" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

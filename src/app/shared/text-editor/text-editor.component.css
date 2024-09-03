@@ -1,0 +1,146 @@
+.text-container-buttons {
+  display: block;
+  row-gap: 2rem;
+  column-gap: 2rem;
+  width: 100%;
+}
+
+.color-buttons {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+
+#dropdown-text-style-button {
+  width: 10rem;
+}
+
+.draggable {
+  position: absolute;
+  padding: 5px;
+  cursor: move;
+  transition: background-color 0.3s ease, border 0.3s ease;
+}
+
+.draggable input[type="text"] {
+  font-size: inherit;
+  color: inherit;
+  border: none;
+  background: none;
+  outline: none;
+  width: auto;
+}
+
+.draggable .close-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  color: red;
+  background-color: white;
+  border: none;
+  font-size: 16px;
+  line-height: 1;
+  padding: 2px 5px;
+  visibility: hidden; /* Hidden by default */
+}
+
+.draggable:hover .close-button {
+  visibility: visible; /* Show when hovering */
+}
+
+.draggable:hover {
+  background-color: rgba(255, 255, 255, 0.8); /* Background when interacting */
+}
+
+#text-icon {
+  background-color: black;
+  color: white;
+  border-radius: 50%;
+  padding-left: 0.2rem;
+  padding-right: 0.2rem;
+}
+
+.text-formatting {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.text-formatting button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid #ccc;
+  background-color: white;
+  cursor: pointer;
+}
+
+.text-formatting button.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.text-formatting input[type="number"] {
+  width: 4rem;
+  padding: 0.25rem;
+}
+
+.card {
+  display: block;
+  height: 21rem;
+}
+
+.container-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 10px;
+}
+
+.option-style {
+  padding: 0 1rem;
+}
+
+#color-select {
+  height: 2.3rem;
+  border-radius: 5px;
+  width: 150%;
+}
+
+#style-select {
+  height: 2.3rem;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.input-group-append {
+  margin-left: 5px;
+}
+
+.input-group-prepend {
+  justify-content: space-around;
+}
+
+.btn-group {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#select-width {
+  width: 82%;
+}
+
+#btn-color {
+  background-color: #274c77;
+  border-color: #274c77;
+}
+
+#text-title {
+  display: flex;
+  gap: 25px;
+}

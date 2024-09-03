@@ -1,0 +1,74 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  max-width: none;
+}
+
+.title {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: space-evenly;
+  margin-top: 1rem;
+}
+
+.first-title {
+  font-size: 6rem;
+  color: #274c77;
+  font-weight: bold;
+  border-color: lightblue;
+}
+
+.subtitle {
+  font-size: 1.4rem;
+  color: black;
+  font-weight: bold;
+}
+
+.img-section {
+  border-style: dashed;
+  border-color: #274c77;
+  background-color: rgb(219 219 219);
+  border-radius: 12px;
+  width: 70%;
+  height: 20rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 14rem;
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+}
+
+.move-on {
+  width: 100%;
+  text-align: center;
+}
+
+.next-btn {
+  border-radius: 8px;
+  width: 8rem;
+  background-color: #274c77;
+  border-color: #274c77;
+  border-radius: 8px;
+}
+
+.remove-file {
+  margin-left: 1rem;
+}
+
+.file-name {
+  font-weight: bold;
+}
+
+#upload-btn {
+  background-color: #274c77;
+  border-color: #274c77;
+  border-radius: 8px;
+}
+
+#upload-btn:hover {
+  border-color: #ffffff;
+}

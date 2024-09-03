@@ -1,0 +1,22 @@
+.container {
+  background-color: #88a3c3;
+  display: flex;
+  max-width: none;
+}
+
+.leftblock {
+  width: 30%;
+  height: 100%;
+  display: block;
+  padding: 1rem;
+  gap: 20px;
+}
+
+.rightblock {
+  width: 70%;
+  height: 100%;
+  display: flex;
+  padding: 1rem;
+  gap: 56px;
+  flex-direction: column;
+}

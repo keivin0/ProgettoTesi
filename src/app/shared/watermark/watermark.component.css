@@ -1,0 +1,58 @@
+.recipient {
+  font-size: 1.2rem;
+  margin: 1.7rem 0 0 0;
+}
+
+.watermark-container {
+  display: block;
+  text-align: center;
+}
+
+.list-group-item {
+  height: 2.3rem;
+  border-radius: 5px;
+  width: 100%;
+}
+
+#watermark-icon {
+  background-color: black;
+  color: white;
+  border-radius: 50%;
+  padding-left: 0.3rem;
+  padding-right: 0.3rem;
+}
+
+.card-header {
+  display: flex;
+  gap: 25px;
+}
+
+#btn-color-add {
+  font-size: 1.2rem;
+  background-color: #274c77;
+  border-color: #274c77;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+#btn-color-remove {
+  font-size: 1.2rem;
+  background-color: #274c77;
+  border-color: #274c77;
+  padding-left: 0.2rem;
+  padding-right: 0.2rem;
+}
+
+.card {
+  height: 21rem;
+}
+
+.input-label {
+  height: 2.3rem;
+  border: 1px solid black;
+  border-radius: 8px;
+}
+
+li {
+  margin-top: 1.2rem;
+}

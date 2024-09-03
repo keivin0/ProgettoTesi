@@ -1,0 +1,66 @@
+<div class="container">
+  <div class="title">
+    <span class="first-title">SafeDoc</span>
+    <span class="subtitle">Protect your privacy</span>
+  </div>
+
+  <div
+    class="img-section"
+    (drop)="onDrop($event)"
+    (dragover)="onDragOver($event)"
+  >
+    <div class="icon-div">
+      <h1 class="icona">
+        <i class="bi bi-cloud-arrow-up-fill"></i>
+      </h1>
+    </div>
+
+    <input
+      type="file"
+      id="fileInput"
+      (change)="onFileSelected($event)"
+      hidden
+    />
+
+    <div class="selected-file-div" *ngIf="file?.name">
+      <span class="file-name">
+        {{ file?.name }}
+      </span>
+      <span class="remove-file">
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          (click)="removeFile()"
+        >
+          <i class="bi bi-trash3"></i>
+        </button>
+      </span>
+    </div>
+
+    <div class="select-btn-div">
+      <button
+        (click)="triggerFileInput()"
+        id="upload-btn"
+        type="button"
+        class="btn btn-secondary btn-lg btn-block m-3"
+      >
+        Choose file to upload
+      </button>
+    </div>
+
+    <div>
+      <p class="text-under-button">or drag and drop them here</p>
+    </div>
+  </div>
+
+  <div class="move-on">
+    <button
+      [disabled]="isDisabled"
+      type="button"
+      class="btn btn-success next-btn"
+      (click)="goToEditingPage()"
+    >
+      Next
+    </button>
+  </div>
+</div>

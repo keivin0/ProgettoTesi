@@ -1,0 +1,18 @@
+.image-canvas {
+  height: fit-content;
+  max-height: 35rem;
+  max-width: 35rem;
+  min-width: 5rem;
+  border: solid;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  height: 36rem;
+}
+
+.image-container {
+  display: flex;
+  align-items: center;
+}
