@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+} from '@angular/core';
 import { ImageService } from '../../services/image.service';
 
 @Component({
@@ -6,15 +12,23 @@ import { ImageService } from '../../services/image.service';
   templateUrl: './image-editor.component.html',
   styleUrls: ['./image-editor.component.css'],
 })
-export class ImageEditorComponent implements OnInit {
+export class ImageEditorComponent implements OnInit, AfterViewInit {
   @ViewChild('imageCanvas') canvasRef!: ElementRef<HTMLCanvasElement>;
+
+  @ViewChild('textEditorContainer', { static: false })
+  textEditorContainerRef!: ElementRef<HTMLDivElement>;
+  @ViewChild('textEditor', { static: false })
+  textEditorRef!: ElementRef<HTMLInputElement>;
+  @ViewChild('deleteText', { static: false })
+  deleteTextRef!: ElementRef<HTMLButtonElement>;
+
   private context!: CanvasRenderingContext2D;
   imageSrc: string = '';
   private originalImage: HTMLImageElement = new Image();
   private watermarkImage: HTMLImageElement | null = null;
   textBoxes: {
     id: number;
-    text: string;
+    textLines: string[];
     originalText: string;
     x: number;
     y: number;
@@ -45,6 +59,14 @@ export class ImageEditorComponent implements OnInit {
       this.setCanvasSize(this.originalImage.width, this.originalImage.height);
       this.redrawImage();
     };
+
+    // Gestisce la "X" per eliminare il testo
+    this.deleteTextRef.nativeElement.addEventListener('click', (event) => {
+      event.stopPropagation();
+      if (this.selectedBoxId !== null) {
+        this.deleteTextBox(this.selectedBoxId);
+      }
+    });
   }
 
   setCanvasSize(width: number, height: number) {
@@ -80,17 +102,6 @@ export class ImageEditorComponent implements OnInit {
   }
 
   drawTextBoxes() {
-    // this.textBoxes.forEach((box) => {
-    //   const fontStyle = box.styles['font-style'];
-    //   const fontWeight = box.styles['font-weight'];
-    //   const fontSize = box.styles['font-size'];
-    //   const fontFamily = box.styles['font-family'];
-
-    //   this.context.font = `${fontStyle} ${fontWeight} ${fontSize} ${fontFamily}`;
-    //   this.context.fillStyle = box.styles.color;
-    //   this.context.fillText(box.text, box.x, box.y);
-    // });
-
     this.textBoxes.forEach((box) => {
       const fontStyle = box.styles['font-style'];
       const fontWeight = box.styles['font-weight'];
@@ -99,27 +110,37 @@ export class ImageEditorComponent implements OnInit {
 
       this.context.font = `${fontStyle} ${fontWeight} ${fontSize} ${fontFamily}`;
       this.context.fillStyle = box.styles.color;
-      this.context.fillText(box.text, box.x, box.y);
+
+      // Disegna ogni riga del testo
+      box.textLines.forEach((line, index) => {
+        this.context.fillText(
+          line,
+          box.x,
+          box.y + index * parseInt(fontSize, 10)
+        );
+      });
 
       // La funzione fillText del canvas non supporta direttamente lo stile di sottolineatura, quindi disegnamo la sottolineatura se attiva.
       if (box.styles['text-decoration'] === 'underline') {
-        const textWidth = this.context.measureText(box.text).width;
-        const fontSize = parseInt(box.styles['font-size'], 10);
-
-        this.context.beginPath();
-        this.context.moveTo(box.x, box.y + 2); // Inizia leggermente sotto il testo
-        this.context.lineTo(box.x + textWidth, box.y + 2); // Fino alla larghezza del testo
-        this.context.lineWidth = 3; // Imposta lo spessore della linea
-        this.context.strokeStyle = box.styles.color; // Usa lo stesso colore del testo
-        this.context.stroke();
+        box.textLines.forEach((line, index) => {
+          const textWidth = this.context.measureText(line).width;
+          const lineY = box.y + index * parseInt(fontSize, 10) + 2;
+          this.context.beginPath();
+          this.context.moveTo(box.x, lineY);
+          this.context.lineTo(box.x + textWidth, lineY);
+          this.context.lineWidth = 3;
+          this.context.strokeStyle = box.styles.color;
+          this.context.stroke();
+        });
       }
     });
   }
 
   addTextBox(text: string, styles: any) {
+    const lines = text.split('\n'); // Divide il testo in righe
     this.textBoxes.push({
       id: this.nextId++,
-      text,
+      textLines: lines,
       originalText: text,
       x: 50,
       y: 50,
@@ -139,57 +160,54 @@ export class ImageEditorComponent implements OnInit {
   updateTextBox(id: number, newText: string) {
     const box = this.textBoxes.find((b) => b.id === id);
     if (box) {
-      box.text = newText;
+      box.textLines = newText.split('\n');
+      box.originalText = newText;
       this.redrawImage();
     }
   }
 
   enableTextEdit(box: any) {
-    // Nascondi il testo esistente
-    this.context.clearRect(
-      box.x,
-      box.y - parseInt(box.styles['font-size']),
-      this.context.measureText(box.text).width,
-      parseInt(box.styles['font-size'])
-    );
+    const textareaElement = this.textEditorRef.nativeElement;
+    const editorContainer = this.textEditorContainerRef.nativeElement;
 
-    const inputElement = document.createElement('input');
+    textareaElement.value = box.textLines.join('\n'); // Imposta il valore del textarea
 
     // Calcola le coordinate del canvas rispetto alla pagina
     const canvasRect = this.canvasRef.nativeElement.getBoundingClientRect();
-    // Calcola le coordinate della casella di testo con il fattore di scala applicato
-    const scaledX = canvasRect.left + box.x * this.zoomLevel;
-    const scaledY = canvasRect.top + box.y * this.zoomLevel;
 
-    inputElement.type = 'text';
-    inputElement.value = box.text;
-    inputElement.style.position = 'absolute';
-    inputElement.style.left = `${scaledX}px`;
-    inputElement.style.top = `${scaledY - parseInt(box.styles['font-size'])}px`;
-    inputElement.style.fontSize = `${
-      parseInt(box.styles['font-size']) * this.zoomLevel
-    }px`;
-    inputElement.style.fontFamily = box.styles['font-family'];
-    inputElement.style.color = box.styles['color'];
-    inputElement.style.border = 'none';
-    inputElement.style.outline = 'none';
-    inputElement.style.background = 'transparent';
-    inputElement.style.zIndex = '1000';
+    // Calcola la dimensione e la posizione del rettangolo che occupa il testo
+    this.context.font = `${box.styles['font-style']} ${box.styles['font-weight']} ${box.styles['font-size']} ${box.styles['font-family']}`;
+    const textWidth = this.context.measureText(box.textLines[0]).width;
+    const textHeight = parseInt(box.styles['font-size'], 10) * 2;
 
-    inputElement.onblur = () => {
-      this.updateTextBox(box.id, inputElement.value);
-      inputElement.remove();
-    };
+    // Calcola la posizione dell'input sopra il testo
+    const leftPosition = box.x + canvasRect.left - textWidth - window.scrollX;
+    const topPosition = box.y + canvasRect.top - textHeight + window.scrollY;
 
-    inputElement.onkeydown = (e: KeyboardEvent) => {
-      if (e.key === 'Enter') {
-        this.updateTextBox(box.id, inputElement.value);
-        inputElement.remove();
+    editorContainer.style.left = `${leftPosition}px`;
+    editorContainer.style.top = `${topPosition}px`;
+
+    editorContainer.hidden = false;
+    textareaElement.focus();
+
+    textareaElement.onblur = (e: FocusEvent) => {
+      const relatedTarget = e.relatedTarget as HTMLElement;
+      if (relatedTarget !== this.deleteTextRef.nativeElement) {
+        this.updateTextBox(box.id, textareaElement.value);
+        this.hideTextEditor();
       }
     };
+  }
 
-    document.body.appendChild(inputElement);
-    inputElement.focus();
+  deleteTextBox(id: number) {
+    this.textBoxes = this.textBoxes.filter((box) => box.id !== id);
+    this.redrawImage();
+    this.hideTextEditor();
+  }
+
+  hideTextEditor() {
+    this.textEditorContainerRef.nativeElement.hidden = true;
+    this.selectedBoxId = null;
   }
 
   onMouseDown(event: MouseEvent) {
@@ -206,6 +224,8 @@ export class ImageEditorComponent implements OnInit {
       this.clickTimeout = setTimeout(() => {
         this.isDragging = true;
       }, 200);
+    } else {
+      this.onMouseUp();
     }
   }
 
@@ -259,9 +279,39 @@ export class ImageEditorComponent implements OnInit {
 
   applyTransform(scale: number) {
     this.zoomLevel = scale;
-    this.transformMatrix = new DOMMatrix();
-    this.transformMatrix.scaleSelf(this.zoomLevel);
-    this.redrawImage();
+    const canvas = this.canvasRef.nativeElement;
+    const ctx = canvas.getContext('2d');
+
+    if (ctx && this.originalImage) {
+      // Calcola le nuove dimensioni dell'immagine
+      const newWidth = this.originalImage.width * this.zoomLevel;
+      const newHeight = this.originalImage.height * this.zoomLevel;
+
+      // Aggiorna le dimensioni del canvas per adattarsi alla nuova scala
+      canvas.width = newWidth;
+      canvas.height = newHeight;
+
+      // Calcola la posizione per centrare l'immagine nel canvas
+      const offsetX = (newWidth - canvas.width) / 2;
+      const offsetY = (newHeight - canvas.height) / 2;
+
+      // Cancella il canvas prima di ridisegnare
+      ctx.clearRect(0, 0, newWidth, newHeight);
+
+      // Applica la trasformazione per lo zoom e centra l'immagine
+      ctx.setTransform(this.zoomLevel, 0, 0, this.zoomLevel, offsetX, offsetY);
+      ctx.drawImage(
+        this.originalImage,
+        0,
+        0,
+        this.originalImage.width,
+        this.originalImage.height
+      );
+    } else {
+      console.error(
+        "Impossibile ottenere il contesto del canvas o l'immagine non è stata caricata correttamente"
+      );
+    }
   }
 
   addWatermarkImage(watermarkCanvas: HTMLCanvasElement) {

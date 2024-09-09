@@ -21,7 +21,7 @@ export class WatermarkComponent {
     this.watermarkCanvas.width = imageEditorCanvas.width;
     this.watermarkCanvas.height = imageEditorCanvas.height;
 
-    this.watermarkContext.font = '30px Arial';
+    this.watermarkContext.font = '16px Arial';
     this.watermarkContext.fillStyle = 'rgba(0, 0, 0, 0.5)';
     this.watermarkContext.globalAlpha = 0.5;
     this.watermarkContext.translate(

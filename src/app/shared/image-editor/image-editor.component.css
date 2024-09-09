@@ -1,9 +1,8 @@
 .image-canvas {
   height: fit-content;
   max-height: 35rem;
-  max-width: 35rem;
+  max-width: 50rem;
   min-width: 5rem;
-  border: solid;
 }
 
 .container {
@@ -15,4 +14,29 @@
 .image-container {
   display: flex;
   align-items: center;
+}
+
+.text-editor-container {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  width: 200px;
+  height: 100px;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  overflow: auto;
+  background-color: white;
+  border: 1px solid black;
+  padding: 5px;
+  z-index: 1000;
+}
+
+.delete-button {
+  margin-left: 5px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: red;
 }

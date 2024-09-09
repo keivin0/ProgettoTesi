@@ -7,5 +7,10 @@
       (mousemove)="onMouseMove($event)"
       (mouseup)="onMouseUp()"
     ></canvas>
+
+    <div #textEditorContainer class="text-editor-container" hidden>
+      <textarea #textEditor></textarea>
+      <button #deleteText class="delete-button">X</button>
+    </div>
   </div>
 </div>
