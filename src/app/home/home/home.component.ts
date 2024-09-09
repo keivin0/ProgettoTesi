@@ -43,7 +43,7 @@ export class HomeComponent {
     this.isDisabled = true;
     const fileInput = document.getElementById('fileInput') as HTMLInputElement;
     if (fileInput) {
-      fileInput.value = ''; // Resetta il valore dell'input file
+      fileInput.value = '';
     }
     console.log('cosa dentro', this.file);
   }
