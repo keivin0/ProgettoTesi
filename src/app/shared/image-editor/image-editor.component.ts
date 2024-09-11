@@ -168,6 +168,7 @@ export class ImageEditorComponent implements OnInit, AfterViewInit {
 
   enableTextEdit(box: any) {
     const textareaElement = this.textEditorRef.nativeElement;
+
     const editorContainer = this.textEditorContainerRef.nativeElement;
 
     textareaElement.value = box.textLines.join('\n'); // Imposta il valore del textarea
@@ -177,7 +178,9 @@ export class ImageEditorComponent implements OnInit, AfterViewInit {
 
     // Calcola la dimensione e la posizione del rettangolo che occupa il testo
     this.context.font = `${box.styles['font-style']} ${box.styles['font-weight']} ${box.styles['font-size']} ${box.styles['font-family']}`;
-    const textWidth = this.context.measureText(box.textLines[0]).width;
+    const textWidth = this.context.measureText(
+      box.textLines[0]
+    ).actualBoundingBoxLeft;
     const textHeight = parseInt(box.styles['font-size'], 10) * 2;
 
     // Calcola la posizione dell'input sopra il testo

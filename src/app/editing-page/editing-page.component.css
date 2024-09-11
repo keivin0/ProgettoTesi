@@ -2,14 +2,13 @@
   background-color: #88a3c3;
   display: flex;
   max-width: none;
-  height: 46rem;
 }
 
 .leftblock {
   width: 30%;
   height: 100%;
   display: block;
-  padding: 0.5rem;
+  padding: 1.19rem;
   gap: 20px;
 }
 
@@ -17,7 +16,6 @@
   width: 70%;
   height: 100%;
   display: flex;
-  padding: 0.5rem;
   gap: 56px;
   flex-direction: column;
 }
